@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최인향_포트폴리오</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+    <style>
+        /* 1. 기본 세팅 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #a3e635;
+            font-family: "Pretendard Variable", "Pretendard", sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1; 
+            display: block;
+        }
+        
+        /* 2. 상단 네비게이션 바 */
+        .navbar {
+            background-color: transparent;
+            height: 60px;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 100; 
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            cursor: pointer;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            letter-spacing: -0.5px;
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .menu-links a {
+            text-decoration: none;
+            color: #0e8b75;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .menu-links a:hover {
+            color: white;
+        }
+
+        /* 햄버거 메뉴 삭제 */
+        .menu-toggle-btn {
+            display: none !important; 
+        }
+
+        /* 3. 대형 동그라미 버튼 */
+        .circle-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 120px; 
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        /* 공통 스타일 */
+        .circle-btn1, .circle-btn2 {
+            pointer-events: auto;
+            width: 250px; 
+            height: 250px; 
+            border-radius: 50%;
+            background-color: transparent; 
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 800;
+            font-size: 1.8rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+            animation: floating 4s ease-in-out infinite;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* 개별 이미지 설정 */
+        .circle-btn1 {
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                              url("https://cdn.myportfolio.com/7fb376b3-7640-4ffc-90f5-31e5ebd67e12/c5962c83-54a7-45c7-a43c-ffa3c484f05d_rw_1920.jpg?h=374dc2bd4ab718e811e7b9ff08fa3dbd");
+        }
+
+        .circle-btn2 {
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                              url("https://cdn.myportfolio.com/7fb376b3-7640-4ffc-90f5-31e5ebd67e12/a4271987-a757-4153-aa28-55dc1b2e423d_rw_1920.jpg?h=e7d6852ee04ebbabdc8b6fdca85dc415");
+            animation-delay: 2s;
+        }
+
+        .circle-btn1:hover, .circle-btn2:hover {
+            transform: scale(1.05) translate(0, 0); /* scale만 적용되도록 수정 */
+            background-color: rgba(255,255,255,0.2);
+            border-color: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        /* 모바일 대응 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            .menu-links {
+                margin-top: 10px;
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .circle-container {
+                flex-direction: column;
+                gap: 40px;
+                top: 55%; /* 모바일에서 위치 조정 */
+            }
+            .circle-btn1, .circle-btn2 {
+                width: 180px;
+                height: 180px;
+                font-size: 1.3rem;
+            }
+        }
+		
+		
+		
+		/* 4. 히어로 섹션 (타이핑 텍스트) */
+.hero-section {
+    position: fixed;
+    top: calc(50% + 230px); /* 동그라미 중앙(50%)에서 버튼 높이만큼 내려온 지점 + 여백 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    text-align: center;
+    width: 100%;
+}
+
+.typing-text {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0e8b75; /* 네이비/그린 톤 유지 */
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    /* 타이핑 애니메이션 효과를 원하신다면 아래 속성을 활용하세요 */
+    border-right: 3px solid #0e8b75;
+    width: 0;
+    margin: 0 auto;
+    animation: typing 3.5s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
+}
+
+/* 타이핑 애니메이션 효과 */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 40%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #0e8b75; }
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .hero-section {
+        top: calc(50% + 280px); /* 모바일에서는 세로로 배치된 동그라미 아래에 위치 */
+    }
+    .typing-text {
+        font-size: 1.2rem;
+    }
+}
+		
+		
+		
+    </style>
+</head>
+<body>
+
+    <canvas id="networkCanvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">Portfolio</div>
+        <div class="menu-links">
+            <a href="https://appreciated-deck-009657.framer.app" target="_blank">Products</a>
+            <a href="https://various-thanks-436425.framer.app" target="_blank">Packaging</a>
+            <a href="https://placid-reason-353978.framer.app" target="_blank">Banner</a>
+            <a href="https://ihnhyang19916e37.myportfolio.com/1691d54e58a427" target="_blank">About Me</a>
+        </div>
+    </nav>
+
+    <div class="circle-container">
+        <a href="https://liking35.cafe24.com/" target="_blank" class="circle-btn1">
+            <span>Project 01</span>
+        </a>
+
+        <a href="https://ihnhyang1991.github.io/amber/" target="_blank" class="circle-btn2">
+            <span>Project 02</span>
+        </a>
+    </div>
+	
+	    <div class="hero-section">
+        <div class="typing-text">트랜드 리딩 최인향 웹디자이너입니다.</div>
+    </div>
+	
+
+    <script>
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+        const particleCount = 80; 
+        const connectionDistance = 150; 
+        const particleColor = '#0e8b75'; 
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+        }
+        window.addEventListener('resize', resize);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.2; 
+                this.vy = (Math.random() - 0.5) * 1.2; 
+                this.size = Math.random() * 2 + 1; 
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = particleColor;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) { particles.push(new Particle()); }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(14, 139, 117, ${1 - dist / connectionDistance})`; 
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        resize();
+        animate();
+    </script>
+</body>
+</html>
